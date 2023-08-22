@@ -1,0 +1,43 @@
+function Vref = RefGen(V,I)
+Vrefmax=363;
+Vrefmin = 0;
+Vrefinit=300;
+deltaVref =1;
+persistent Vold Pold Vrefold;
+dataType ='double';
+
+if isempty(Vold)
+    Vold=0;
+    Pold=0;
+    Vrefold= Vrefinit;
+end
+
+P =V*I;
+dV = V-Vold;
+dP = P-Pold;
+
+if dP ~= 0
+     if dP<0
+          if dV<0
+              Vref = Vrefold + deltaVref;
+           else
+              Vref = Vrefold - deltavref;
+           end
+      else
+            if dV<0
+                  Vref = Vrefold - deltaVref;
+            else
+                  Vref = Vrefold + deltaVref;
+            end
+        end
+else Vref=Vrefold;
+end
+
+if Vref >=Vrefmax | Vref<=Vrefmin
+    Vref = Vrefold;
+end
+
+vrefold =Vref;
+Vold = V;
+Pold = P;
+
